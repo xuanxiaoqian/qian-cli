@@ -1,0 +1,25 @@
+{
+  "name": "qian-cli",
+  "version": "1.0.0",
+  "description": "构架Vue3 + TypeScript + Vite项目环境脚手架",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "qian-cli": "./bin/index.js"
+  },
+  "keywords": [
+    "xuanxiaoqian",
+    "qian-cli",
+    "cli"
+  ],
+  "author": "xuanxiaoqian",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^9.2.0",
+    "download-git-repo": "^3.0.2",
+    "ora": "^3.2.0",
+    "chalk": "^2.4.2"
+  }
+}

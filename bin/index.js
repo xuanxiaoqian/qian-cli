@@ -9,6 +9,8 @@ const fs = require("fs"); // 操作文件
 const path = require("path"); // 获得路径
 const ejs = require("ejs"); //  模板初始化
 const download = require("download-git-repo"); //拉取github项目
+var adm_zip = require("adm-zip"); // 解压文件
+const downloadServer = require("download"); // 下载服务器模板
 
 // 提示样式
 const success = chalk.blueBright;
@@ -20,6 +22,8 @@ let utilsList = []; // 选择的工具
 const templateUrl =
   "direct:https://gitee.com/xuanxiaoqian/vue3-project-template.git"; //gitee项目地址
 // const templateUrl =  "direct:https://github.com/xuanxiaoqian/vue3-project-template.git"; //github项目地址
+
+let ServerUrl = "http://xuanxiaoqian.com:8001/Blog/vue3-project-template.zip";
 
 const question = [
   {
@@ -60,7 +64,7 @@ program.command("init <name>").action((content) => {
 
     const spinner = ora("正在初始化Vue3项目...").start(); //开启进度条
 
-    download(templateUrl, projectName, { clone: true }, function (err) {
+    download(templateUrl, projectName, { clone: false }, function (err) {
       if (!err) {
         // 更改 package.json 中的  name 和版本号
         changePackage();
@@ -73,8 +77,42 @@ program.command("init <name>").action((content) => {
         console.log(success("  npm install"));
         console.log(success("  npm run dev"));
       } else {
-        console.log(err);
-        spinner.fail("拉取失败");
+        console.log("本地未有Git环境,正在向服务器拉取");
+
+        (async () => {
+          let data = await downloadServer(ServerUrl);
+          await fs.promises.writeFile(
+            `${process.cwd()}/vue3-project-template.zip`,
+            data
+          );
+
+          var unzip = new adm_zip(
+            path.join(process.cwd(), "vue3-project-template.zip")
+          );
+          await unzip.extractAllTo(`${process.cwd()}`, true);
+          await fs.rename(
+            path.join(process.cwd(), "vue3-project-template"),
+            `${projectName}`,
+            function (err) {
+              // console.log(err);
+            }
+          );
+
+          await deleteFile(
+            path.join(process.cwd(), "vue3-project-template.zip")
+          );
+
+          // 更改 package.json 中的  name 和版本号
+          await changePackage();
+        })();
+
+        spinner.succeed(success("初始化完成!"));
+        console.log();
+        console.log(success("现在运行:"));
+        console.log();
+        console.log(success("  cd " + projectName));
+        console.log(success("  npm install"));
+        console.log(success("  npm run dev"));
       }
     });
   });

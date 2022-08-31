@@ -9,17 +9,16 @@ export function checkName(name: string) {
   const inCurrent = name === ".";
   const projectName = inCurrent ? path.relative("../", process.cwd()) : name;
   const projectPath = inCurrent
-    ? path.join(process.cwd(), name, "../")
+    ? path.join(process.cwd(), name)
     : path.join(process.cwd(), projectName);
 
   if (fs.existsSync(projectPath) && !inCurrent) {
-    console.log("项目存在");
     Chalk.red(`${projectPath} 存在`);
 
     process.exit(1);
   }
 
-  return { projectName, projectPath };
+  return { projectName, projectPath, isCwd: inCurrent ? true : false };
 }
 
 export async function selectFeature(): Promise<Array<string>> {
@@ -119,4 +118,15 @@ function renderTemplate(src: string, dest: string) {
   }
 
   fs.copyFileSync(src, dest);
+}
+
+export function Tips(projectName: string, isCwd: boolean) {
+  console.log();
+  Chalk.green("现在运行:");
+  console.log();
+
+  if (!isCwd) Chalk.green("  cd " + projectName);
+
+  Chalk.green("  npm install");
+  Chalk.green("  npm run dev");
 }

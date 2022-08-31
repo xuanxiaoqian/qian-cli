@@ -152,7 +152,6 @@ export function createChildren(moduleName: string) {
   `
   ).call(this, splitRouteObject.substring(latestIndex, EndIndex + 1));
 
-  console.log(obj);
 
   let chid = obj.children ?? [];
   chid.push(chidren);
@@ -217,7 +216,7 @@ export function createChildren(moduleName: string) {
 
   ejs
     .renderFile(path.join(templateUrl, "page.ejs"), {
-      pageName: moduleName,
+      pageName: sonName,
     })
     .then((data) => {
       fs.writeFileSync(

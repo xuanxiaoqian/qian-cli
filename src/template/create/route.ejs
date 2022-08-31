@@ -1,0 +1,8 @@
+import { RouteRecordRaw } from 'vue-router'
+
+const <%= routeName -%>Route: RouteRecordRaw = {
+  <%- routerMeta -%>
+  children: <%- children %>
+}
+
+export default <%= routeName -%>Route

@@ -1,0 +1,1 @@
+import{_ as s,c as a,o as n,a as o}from"./app.a3ca1428.js";const u=JSON.parse('{"title":"\u4ECB\u7ECD","description":"","frontmatter":{},"headers":[],"relativePath":"configDoc/createConfig/guide.md"}'),l={name:"configDoc/createConfig/guide.md"},p=o("",11),e=[p];function t(c,r,D,F,i,y){return n(),a("div",null,e)}const A=s(l,[["render",t]]);export{u as __pageData,A as default};

@@ -90,7 +90,7 @@ export async function render(projectPath: string, feature: string[]) {
   let succendMsg =
     chalk.green("初始化完成") +
     "  如需使用create命令请务必查看官方文档  " +
-    chalk.dim.italic.magentaBright("https://qian-cli.xuanxiaoqian.com/ ");
+    chalk.dim.italic.magentaBright("https://qian-cli.xuanxiaoqian.com/configDoc/createConfig/guide.html ");
   spinner.succeed(succendMsg);
 }
 

@@ -1,21 +1,27 @@
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(135deg, #eead92 10%, #6018dc 100%);
+  --vp-home-hero-name-background: linear-gradient(
+    135deg,
+    #eead92 10%,
+    #6018dc 100%
+  );
 
   /* 图标背景 */
-  --vp-home-hero-image-background-image: linear-gradient(135deg, #81FFEF 10%, #F067B4 100%);
+  --vp-home-hero-image-background-image: linear-gradient(
+    135deg,
+    #81ffef 10%,
+    #f067b4 100%
+  );
   --vp-home-hero-image-filter: blur(150px);
-
 
   /* brand按钮 */
   --vp-button-brand-border: #6018dc;
   --vp-button-brand-bg: #6018dc;
 
-  --vp-button-brand-hover-border: #924CC2;
-  --vp-button-brand-hover-bg: #924CC2;
+  --vp-button-brand-hover-border: #924cc2;
+  --vp-button-brand-hover-bg: #924cc2;
 
   --vp-button-brand-active-border: #6018dc;
-
 
   /* --vp-button-alt-bg: #6018dc; */
 
@@ -23,14 +29,23 @@
   --vp-button-alt-bg: #3f545b;
   --vp-button-alt-text: white;
 
-  --vp-button-alt-hover-border: #3F545B;
-  --vp-button-alt-hover-bg: #3F545B;
+  --vp-button-alt-hover-border: #3f545b;
+  --vp-button-alt-hover-bg: #3f545b;
   --vp-button-alt-hover-text: white;
 
-  --vp-button-brand-active-border: #3F545B;
+  --vp-button-brand-active-border: #3f545b;
 
-  -webkit-tap-highlight-color:transparent;
+  -webkit-tap-highlight-color: transparent;
 
+  /* 修改 `` 样式*/
   --vp-c-bg-mute: #f8f8f8;
   --vp-c-text-code: #e96900;
+}
+
+/* 修改 > 样式*/
+.vp-doc blockquote {
+  border-left: 4px solid #42b983;
+  padding: 10px 15px;
+  color: #777;
+  background-color: rgba(66, 185, 131, 0.1);
 }

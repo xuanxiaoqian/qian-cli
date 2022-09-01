@@ -3,7 +3,7 @@ import ejs from "ejs";
 import fs from "fs";
 import inquirer from "inquirer";
 import shell from "shelljs";
-import { readJsonFile } from "./common";
+import { firstToUpper, readJsonFile } from "./common";
 
 export async function selectModule(): Promise<string> {
   const question = [
@@ -22,6 +22,8 @@ export async function selectModule(): Promise<string> {
 export function createModule(moduleStr: string, moduleName: string) {
   if (moduleStr == "router") {
     createRouter(moduleName);
+  } else if (moduleStr == "store") {
+    createStore(moduleName);
   }
 }
 
@@ -58,7 +60,7 @@ export function createRootRouter(moduleName: string) {
       .join(
         _data.router.alias,
         _data.router.pagePath.split("src")[1],
-        moduleName,
+        _data.router.isPageDir ? moduleName : "",
         moduleName + ".vue"
       )
       .split("\\")
@@ -116,7 +118,9 @@ export function createChildren(moduleName: string) {
   let chidren = {
     path: `${sonName}`,
     name: `${sonName}`,
-    component: `() => import("@/views/${fatherName}/${sonName}.vue")`,
+    component: _data.router.isPageDir
+      ? `() => import("@/views/${fatherName}/${sonName}.vue")`
+      : `() => import("@/views/${sonName}.vue")`,
   };
   let splitRouteObject = route.split(`${fatherName}Route:`)[1];
   let flag = 0; //记录括号是否闭合
@@ -151,7 +155,6 @@ export function createChildren(moduleName: string) {
     return eval("(" + value + ")");
   `
   ).call(this, splitRouteObject.substring(latestIndex, EndIndex + 1));
-
 
   let chid = obj.children ?? [];
   chid.push(chidren);
@@ -193,6 +196,24 @@ export function createChildren(moduleName: string) {
     }
   }
 
+  // 一定要渲染page再渲染路由，这个bug让我去看了几天vite源码企图修改源码来解决
+  // 如果渲染route再渲染page会报vite的[plugin:vite:import-analysis] Cannot read properties of undefined (reading 'url')错
+  let renderPageUrl = path.join(process.cwd(), _data.router.pagePath);
+  ejs
+    .renderFile(path.join(templateUrl, "page.ejs"), {
+      pageName: sonName,
+    })
+    .then((data) => {
+      fs.writeFileSync(
+        path.join(
+          renderPageUrl,
+          _data.router.isPageDir ? fatherName : "",
+          sonName + ".vue"
+        ),
+        data
+      );
+    });
+
   ejs
     .renderFile(path.join(templateUrl, "route.ejs"), {
       routeName: fatherName,
@@ -211,17 +232,23 @@ export function createChildren(moduleName: string) {
         shell.exit(1);
       }
     });
+}
 
-  let renderPageUrl = path.join(process.cwd(), _data.router.pagePath);
+export function createStore(moduleName: string) {
+  let _data: any = readJsonFile(path.join(process.cwd(), "qian-cli.json"));
+
+  // 模版文件目录
+  let templateUrl = path.join(__dirname, "../", "template", "create");
+
+  let renderStorerl = path.join(process.cwd(), _data.store.storePath);
 
   ejs
-    .renderFile(path.join(templateUrl, "page.ejs"), {
-      pageName: sonName,
+    .renderFile(path.join(templateUrl, "store.ejs"), {
+      storeName: firstToUpper(moduleName),
+      storeId: moduleName,
     })
     .then((data) => {
-      fs.writeFileSync(
-        path.join(renderPageUrl, fatherName, sonName + ".vue"),
-        data
-      );
+      // 生成 ejs 处理后的模版文件
+      fs.writeFileSync(path.join(renderStorerl, moduleName + ".ts"), data);
     });
 }

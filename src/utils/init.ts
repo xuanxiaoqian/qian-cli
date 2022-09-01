@@ -3,7 +3,9 @@ import fs from "fs";
 import clear from "clear-console";
 import Chalk from "./chalk";
 import inquirer from "inquirer";
-import sortDependencies, { deepMerge } from "./common";
+import ora from "ora";
+import sortDependencies, { deepMerge, readJsonFile } from "./common";
+import chalk from "chalk";
 
 export function checkName(name: string) {
   const inCurrent = name === ".";
@@ -67,7 +69,9 @@ export async function selectFeature(): Promise<Array<string>> {
   return answer.feature as Array<string>;
 }
 
-export function render(projectPath: string, feature: string[]) {
+export async function render(projectPath: string, feature: string[]) {
+  const spinner = ora("正在初始化Vue3项目...").start(); //开启进度条
+
   let templatePath: any = path.join(__dirname, "../", "template");
 
   renderTemplate(path.join(templatePath, "base"), projectPath);
@@ -75,6 +79,19 @@ export function render(projectPath: string, feature: string[]) {
   feature.map((item) => {
     renderTemplate(path.join(templatePath, "code", item), projectPath);
   });
+
+  let _data: any = readJsonFile(path.join(projectPath, "package.json"));
+  _data.name = path.basename(projectPath);
+  _data.version = "1.0.0";
+
+  let str = JSON.stringify(_data, null, 4);
+  fs.writeFileSync(path.join(projectPath, "package.json"), str);
+
+  let succendMsg =
+    chalk.green("初始化完成") +
+    "  如需使用create命令请务必查看官方文档  " +
+    chalk.dim.italic.magentaBright("https://qian-cli.xuanxiaoqian.com/ ");
+  spinner.succeed(succendMsg);
 }
 
 export function clearConsole(): void {

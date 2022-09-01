@@ -67,3 +67,14 @@ export function deepMerge(target, obj) {
  export function readJsonFile<T>(filename: string): T {
   return JSON.parse(fs.readFileSync(filename, { encoding: "utf-8", flag: "r" }));
 }
+
+
+
+/**
+ * 
+ * @param str 将字符串首字母大写
+ * @returns 
+ */
+ export function firstToUpper(str:string) {
+  return str.trim().toLowerCase().replace(str[0], str[0].toUpperCase());
+}

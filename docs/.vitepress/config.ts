@@ -45,9 +45,17 @@ export default defineConfig({
         {
           text: "可选配置",
           items: [
-            { text: "axios", link: "/configDoc/optionConfig/axios/index" },
-            { text: "pinia", link: "/configDoc/optionConfig/pinia/index" },
-            { text: "scss", link: "/configDoc/optionConfig/scss/index" },
+            { text: "axios", link: "/configDoc/optionConfig/axios/axios" },
+            { text: "pinia", link: "/configDoc/optionConfig/pinia/pinia" },
+            { text: "scss", link: "/configDoc/optionConfig/scss/scss" },
+          ],
+        },
+        {
+          text: "创建模块",
+          items: [
+            { text: "介绍", link: "/configDoc/createConfig/guide" },
+            { text: "router", link: "/configDoc/createConfig/router/router" },
+            { text: "pinia", link: "/configDoc/createConfig/pinia/pinia" },
           ],
         },
       ],

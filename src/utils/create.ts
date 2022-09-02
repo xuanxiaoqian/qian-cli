@@ -119,7 +119,7 @@ export function createChildren(moduleName: string) {
     path: `${sonName}`,
     name: `${sonName}`,
     component: _data.router.isPageDir
-      ? `() => import("@/views/${fatherName}/${sonName}.vue")`
+      ? `() => import("@/views/${fatherName}/${sonName}/${sonName}.vue")`
       : `() => import("@/views/${sonName}.vue")`,
   };
   let splitRouteObject = route.split(`${fatherName}Route:`)[1];
@@ -207,7 +207,7 @@ export function createChildren(moduleName: string) {
       if (_data.router.isPageDir) {
         fs.mkdirSync(path.join(renderPageUrl, fatherName, sonName));
         fs.writeFileSync(
-          path.join(renderPageUrl, fatherName, moduleName, sonName + ".vue"),
+          path.join(renderPageUrl, fatherName, sonName, sonName + ".vue"),
           data
         );
       } else {

@@ -1,7 +1,7 @@
 {
   "name": "qian-cli",
   "version": "1.3.5",
-  "description": "",
+  "description": "快速搭建vue3开发环境的脚手架",
   "main": "index.js",
   "bin": {
     "qian-cli": "./lib/index.js"
@@ -15,8 +15,12 @@
     "serve:docs": "vitepress serve docs",
     "prepublishOnly": "zx ./scripts/prepublish.mjs"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "xuanxiaoqian",
+    "qian-cli",
+    "cli"
+  ],
+  "author": "xuanxiaoqian",
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.0",

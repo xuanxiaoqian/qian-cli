@@ -20,7 +20,7 @@ export function checkName(name: string) {
     process.exit(1);
   }
 
-  return { projectName, projectPath, isCwd: inCurrent ? true : false };
+  return { projectPath, isCwd: inCurrent ? true : false };
 }
 
 export async function selectFeature(): Promise<Array<string>> {
@@ -52,14 +52,14 @@ export async function selectFeature(): Promise<Array<string>> {
           checked: true,
         },
         {
-          value: "TSX",
-          name: "TSX",
-          checked: true,
-        },
-        {
           value: "prettier",
           name: "prettier",
           checked: true,
+        },
+        {
+          value: "TSX",
+          name: "TSX",
+          checked: false,
         },
       ],
     },
@@ -90,7 +90,9 @@ export async function render(projectPath: string, feature: string[]) {
   let succendMsg =
     chalk.green("初始化完成") +
     "  如需使用create命令请务必查看官方文档  " +
-    chalk.dim.italic.magentaBright("https://qian-cli.xuanxiaoqian.com/configDoc/createConfig/guide.html ");
+    chalk.dim.italic.magentaBright(
+      "https://qian-cli.xuanxiaoqian.com/configDoc/createConfig/guide.html "
+    );
   spinner.succeed(succendMsg);
 }
 

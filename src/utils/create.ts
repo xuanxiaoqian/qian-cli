@@ -68,17 +68,6 @@ export function createRootRouter(moduleName: string) {
   `;
 
   ejs
-    .renderFile(routeUrl, {
-      routeName: moduleName,
-      routerMeta: routerMeta,
-      children: "[]",
-    })
-    .then((data) => {
-      // 生成 ejs 处理后的模版文件
-      fs.writeFileSync(path.join(renderRouteUrl, routeName), data);
-    });
-
-  ejs
     .renderFile(pageUrl, {
       pageName: moduleName,
     })
@@ -98,6 +87,17 @@ export function createRootRouter(moduleName: string) {
         shell.echo("prettier格式化错误");
         shell.exit(1);
       }
+    });
+
+  ejs
+    .renderFile(routeUrl, {
+      routeName: moduleName,
+      routerMeta: routerMeta,
+      children: "[]",
+    })
+    .then((data) => {
+      // 生成 ejs 处理后的模版文件
+      fs.writeFileSync(path.join(renderRouteUrl, routeName), data);
     });
 }
 
@@ -204,14 +204,15 @@ export function createChildren(moduleName: string) {
       pageName: sonName,
     })
     .then((data) => {
-      fs.writeFileSync(
-        path.join(
-          renderPageUrl,
-          _data.router.isPageDir ? fatherName : "",
-          sonName + ".vue"
-        ),
-        data
-      );
+      if (_data.router.isPageDir) {
+        fs.mkdirSync(path.join(renderPageUrl, fatherName, sonName));
+        fs.writeFileSync(
+          path.join(renderPageUrl, fatherName, moduleName, sonName + ".vue"),
+          data
+        );
+      } else {
+        fs.writeFileSync(path.join(renderPageUrl, sonName + ".vue"), data);
+      }
     });
 
   ejs

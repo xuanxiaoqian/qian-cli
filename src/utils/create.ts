@@ -78,15 +78,6 @@ export function createRootRouter(moduleName: string) {
       } else {
         fs.writeFileSync(path.join(renderPageUrl, vueName), data);
       }
-
-      if (
-        shell.exec(
-          `npx prettier --write  \"src/router/modules/${moduleName}.ts\"`
-        ).code !== 0
-      ) {
-        shell.echo("prettier格式化错误");
-        shell.exit(1);
-      }
     });
 
   ejs
@@ -98,6 +89,14 @@ export function createRootRouter(moduleName: string) {
     .then((data) => {
       // 生成 ejs 处理后的模版文件
       fs.writeFileSync(path.join(renderRouteUrl, routeName), data);
+
+      if (
+        shell.exec(
+          `npx prettier --write  \"src/router/modules/${moduleName}.ts\"`
+        ).code !== 0
+      ) {
+        shell.echo("prettier格式化错误");
+      }
     });
 }
 
@@ -230,7 +229,6 @@ export function createChildren(moduleName: string) {
         ).code !== 0
       ) {
         shell.echo("prettier格式化错误");
-        shell.exit(1);
       }
     });
 }

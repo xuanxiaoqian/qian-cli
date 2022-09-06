@@ -1,7 +1,5 @@
-import { useCounterStore } from './modules/counter'
+import { createPinia } from 'pinia'
 
-const store = {
-  counterStore: useCounterStore()
-}
+const pinia = createPinia()
 
-export default store
+export default pinia

@@ -1,6 +1,6 @@
 {
   "name": "qian-cli",
-  "version": "1.3.16",
+  "version": "1.3.19",
   "description": "快速搭建vue3开发环境的脚手架",
   "main": "index.js",
   "bin": {
@@ -16,9 +16,9 @@
     "prepublishOnly": "zx ./scripts/prepublish.mjs"
   },
   "keywords": [
-    "xuanxiaoqian",
     "qian-cli",
-    "cli"
+    "cli",
+    "xuanxiaoqian"
   ],
   "author": "xuanxiaoqian",
   "license": "ISC",

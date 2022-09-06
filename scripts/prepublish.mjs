@@ -18,15 +18,17 @@ console.log(`版本号： ${version} -> ${_data.version}`);
 
 await $`prettier --write  \"./package.json\"`;
 
-await $`git tag -m "v${_data.version}" v${_data.version}`
-await $`git push --follow-tags`
+// await $`git add -A`; 
+
+// await $`git tag -m "v${_data.version}" v${_data.version}`
+// await $`git push --follow-tags`
 
 
-// await $`git add -A`; // 合并至commit
+
 
 await $`git commit -am "版本号: ${_data.version}"`;
 
-await $`git push`;
+await $`git push origin`;
 
 // await $`git push github`;    // 没开梯子容易超时，建议手动提交
 

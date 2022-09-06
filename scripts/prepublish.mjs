@@ -25,4 +25,6 @@ await $`git commit -m "版本号: ${_data.version}"`;
 
 await $`git push`;
 
+// await $`git push github`;    // 没开梯子容易超时，建议手动提交
+
 console.log(`版本号： ${version} -> ${_data.version}`);

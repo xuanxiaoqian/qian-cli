@@ -28,4 +28,5 @@ program
   .action(async (name: string) => {
     await create(name)
   })
+
 program.parse(process.argv)

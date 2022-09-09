@@ -27,6 +27,6 @@ await $`git commit -am "版本号: ${_data.version}"`
 
 await $`git push origin`
 
-await $`git push github`; 
+// await $`git push github`; 
 
 console.log(`版本号： ${version} -> ${_data.version}`)

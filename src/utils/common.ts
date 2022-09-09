@@ -75,7 +75,7 @@ export function firstToUpper(str: string) {
 }
 
 /**
- * 传进来一个模块，返回模块里面默认导出的名字
+ * 传进来字符串，返回字符串里面默认导出的名字
  * @param stringValue 要转换的字符串
  * @returns 默认导出名
  */
@@ -90,7 +90,7 @@ export function exportDefaultName(stringValue: string) {
 }
 
 /**
- * 传进来一个模块、一个对象名，返回一个可以调用的对象
+ * 传进来一个字符串、一个对象名，返回一个可以调用的对象
  * @param objectString 模块
  * @param name 对象名
  * @returns 动态对象

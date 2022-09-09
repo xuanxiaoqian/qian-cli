@@ -3,7 +3,7 @@
     "routePath": "src/router/modules",
     "pagePath": "src/views",
     "alias": "@",
-    "isPageDir": false
+    "isPageDir": true
   },
   "store": {
     "storePath": "src/store/modules"

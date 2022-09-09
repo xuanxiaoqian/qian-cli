@@ -12,6 +12,8 @@ npm i qian-cli -g
 ~~~sh
 qian-cli init my-project
 ~~~
+
+<vua-image src='/cli-init.png' />
 <br />
 
 创建一个`模块`:
@@ -19,3 +21,5 @@ qian-cli init my-project
 ~~~sh
 qian-cli create moduleName
 ~~~
+
+<vua-image src='/cli-create.png'/>

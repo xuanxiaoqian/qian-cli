@@ -3,6 +3,13 @@
 import { program } from 'commander'
 import create from './core/create'
 import init from './core/init'
+import updateNotifier from 'update-notifier'
+import { readJsonFile } from './utils/common'
+import path from 'path'
+
+let _data: any = readJsonFile(path.join(__dirname, '../package.json'))
+const notifier = updateNotifier({ pkg: _data, updateCheckInterval: 0 })
+notifier.notify({ isGlobal: true })
 
 program
   .version(`${require('../package.json').version}`, '-v --version')

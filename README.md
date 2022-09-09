@@ -46,7 +46,20 @@ qian-cli还提供了快捷生成文件，无需手动创建文件、文件夹。
 
 
 
+## 技术
 
+1. 默认配置
+   - Vue3
+   - TypeScript
+   - Vue-Router4
+   - Vite
+2. 可选配置
+   - Axios
+   - Pinia
+   - Prettier
+   - Scss
+   - Tsx
+   - `敬请期待...`
 
 ## 安装
 

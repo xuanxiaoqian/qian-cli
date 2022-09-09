@@ -4,6 +4,7 @@
     "target": "es2016",
     "module": "commonjs",
     "esModuleInterop": true,
+    "jsx": "preserve",
     "forceConsistentCasingInFileNames": true,
     "strict": false,
     "skipLibCheck": true

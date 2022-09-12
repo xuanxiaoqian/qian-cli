@@ -73,9 +73,15 @@ export function createRootRouter(moduleName: string) {
       .join('/')}'),
   `
 
+  console.log();
+
+  let sass = require(path.join(process.cwd(),'package.json'))['devDependencies']['sass'] ?? require(path.join(process.cwd(),'package.json'))['dependencies']['sass'] ?? false
+  
+  let isScss = sass ? `lang="scss" ` : ''
   ejs
     .renderFile(pageUrl, {
       pageName: moduleName,
+      isScss
     })
     .then((data) => {
       if (_data.router.isPageDir) {
@@ -166,9 +172,14 @@ export function createChildren(moduleName: string) {
   // 一定要渲染page再渲染路由，这个bug让我去看了几天vite源码企图修改源码来解决
   // 如果渲染route再渲染page会报vite的[plugin:vite:import-analysis] Cannot read properties of undefined (reading 'url')错
   let renderPageUrl = path.join(process.cwd(), _data.router.pagePath)
+
+  let sass = require(path.join(process.cwd(),'package.json'))['devDependencies']['sass'] ?? require(path.join(process.cwd(),'package.json'))['dependencies']['sass'] ?? false
+  
+  let isScss = sass ? `lang="scss" ` : ''
   ejs
     .renderFile(path.join(templateUrl, 'page.ejs'), {
       pageName: sonName,
+      isScss
     })
     .then((data) => {
       if (_data.router.isPageDir) {

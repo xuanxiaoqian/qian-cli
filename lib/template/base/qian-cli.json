@@ -1,0 +1,11 @@
+{
+  "router": {
+    "routePath": "src/router/modules",
+    "pagePath": "src/views",
+    "alias": "@",
+    "isPageDir": true
+  },
+  "store": {
+    "storePath": "src/store/modules"
+  }
+}

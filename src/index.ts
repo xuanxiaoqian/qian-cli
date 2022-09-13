@@ -3,6 +3,7 @@
 import { program } from 'commander'
 import create from './core/create'
 import init from './core/init'
+
 import notifier from "./utils/updateNotifier";
 notifier.notify({ isGlobal: true })
 

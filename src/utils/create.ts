@@ -11,11 +11,11 @@ import {
   stringObjectParse,
   qianCliJson,
 } from './common'
-import { red,green } from 'kolorist'
+import { red, green } from 'kolorist'
 
 export const checkConfigJson = () => {
   if (!(qianCliJson() ?? false)) {
-    console.log(red(`未找到 ${path.join(process.cwd(), 'qian-cli.json')}`));
+    console.log(red(`未找到 ${path.join(process.cwd(), 'qian-cli.json')}`))
 
     process.exit(1)
   }
@@ -36,7 +36,6 @@ export async function selectModule(): Promise<string> {
 }
 
 export function createModule(moduleStr: string, moduleName: string) {
-  
   if (moduleName.split('/').length > 1) {
     createRouter(moduleName)
     return
@@ -127,8 +126,7 @@ export function createRootRouter(moduleName: string) {
         shell.echo('prettier格式化错误')
       }
 
-      console.log(green('创建成功！！！'));
-      
+      console.log(green('创建成功！！！'))
     })
 }
 
@@ -144,6 +142,42 @@ export function createChildren(moduleName: string) {
     _data.router.routePath,
     fatherName + '.ts',
   )
+
+  if (!fs.existsSync(fatherUrl)) {
+    console.log(red(`找不到 ${fatherUrl}`))
+    process.exit(0)
+  }
+
+  if (_data.router.isPageDir) {
+    if (
+      !fs.existsSync(
+        path.join(path.join(process.cwd(), _data.router.pagePath), fatherName),
+      )
+    ) {
+      console.log(
+        red(
+          `找不到 ${path.join(
+            path.join(process.cwd(), _data.router.pagePath),
+            fatherName,
+          )}`,
+        ),
+      )
+      process.exit(0)
+    }
+  } else {
+    if (
+      !fs.existsSync(path.join(path.join(process.cwd(), _data.router.pagePath)))
+    ) {
+      console.log(
+        red(
+          `找不到 ${path.join(
+            path.join(process.cwd(), _data.router.pagePath),
+          )}`,
+        ),
+      )
+      process.exit(0)
+    }
+  }
 
   let route = fs.readFileSync(fatherUrl).toString()
   let children = {
@@ -233,7 +267,7 @@ export function createChildren(moduleName: string) {
         shell.echo('prettier格式化错误')
       }
 
-      console.log(green('创建成功！！！'));
+      console.log(green('创建成功！！！'))
     })
 }
 
@@ -254,6 +288,6 @@ export function createStore(moduleName: string) {
       // 生成 ejs 处理后的模版文件
       fs.writeFileSync(path.join(renderStorerl, moduleName + '.ts'), data)
 
-      console.log(green('创建成功！！！'));
+      console.log(green('创建成功！！！'))
     })
 }

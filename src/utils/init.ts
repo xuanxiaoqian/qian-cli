@@ -1,11 +1,12 @@
 import path from 'path'
 import fs from 'fs'
 import clear from 'clear-console'
-import Chalk from './chalk'
+
+import { blue, red,green,lightRed } from 'kolorist'
 import inquirer from 'inquirer'
 import ora from 'ora'
-import sortDependencies, { deepMerge, readJsonFile } from './common'
-import chalk from 'chalk'
+import sortDependencies, { currentPackageJson, deepMerge, readJsonFile } from './common'
+
 
 export function checkName(name: string) {
   const inCurrent = name === '.'
@@ -15,7 +16,7 @@ export function checkName(name: string) {
     : path.join(process.cwd(), projectName)
 
   if (fs.existsSync(projectPath) && !inCurrent) {
-    Chalk.red(`${projectPath} 存在`)
+    console.log(red(`${projectPath} 存在`));
 
     process.exit(1)
   }
@@ -24,11 +25,13 @@ export function checkName(name: string) {
 }
 
 export async function selectFeature(): Promise<Array<string>> {
-  clearConsole()
+  // 清空控制台
+  clear()
 
-  Chalk.blue(`当前脚手架版本 v${require('../../package.json').version}`)
-  Chalk.default('开始初始化项目:')
-  Chalk.default('')
+  console.log(blue(`当前脚手架版本 v${currentPackageJson.version}`));
+  
+  console.log('开始初始化项目:');
+  console.log('');
 
   const question = [
     {
@@ -88,17 +91,12 @@ export async function render(projectPath: string, feature: string[]) {
   fs.writeFileSync(path.join(projectPath, 'package.json'), str)
 
   let succendMsg =
-    chalk.green('初始化完成') +
+    green('初始化完成') +
     '  如需使用create命令请务必查看官方文档  ' +
-    chalk.dim.italic.magentaBright(
-      'https://qian-cli.xuanxiaoqian.com/configDoc/createConfig/guide.html ',
-    )
+    lightRed('https://qian-cli.xuanxiaoqian.com/configDoc/createConfig/guide.html')
   spinner.succeed(succendMsg)
 }
 
-export function clearConsole(): void {
-  clear()
-}
 
 function renderTemplate(src: string, dest: string) {
   const stats = fs.statSync(src)
@@ -141,11 +139,10 @@ function renderTemplate(src: string, dest: string) {
 
 export function Tips(projectName: string, isCwd: boolean) {
   console.log()
-  Chalk.green('现在运行:')
+  console.log(green('现在运行:'));
   console.log()
+  if (!isCwd) console.log(green('  cd ' + projectName));
 
-  if (!isCwd) Chalk.green('  cd ' + projectName)
-
-  Chalk.green('  npm install')
-  Chalk.green('  npm run dev')
+  console.log(green('  npm install'));
+  console.log(green('  npm run dev'));
 }

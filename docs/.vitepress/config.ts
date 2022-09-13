@@ -34,6 +34,7 @@ export default defineConfig({
             { text: '关于脚手架', link: '/guide/about' },
             { text: '安装', link: '/guide/installation' },
             { text: '发展历程', link: '/guide/history' },
+            { text: '相关讲解', link: '/guide/explain' },
             { text: '配置参考', link: '/guide/configRef' },
           ],
         },

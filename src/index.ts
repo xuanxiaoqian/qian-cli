@@ -3,12 +3,13 @@
 import { program } from 'commander'
 import create from './core/create'
 import init from './core/init'
+import { currentPackageJson } from './utils/common';
 
 import notifier from "./utils/updateNotifier";
 notifier.notify({ isGlobal: true })
 
 program
-  .version(`${require('../package.json').version}`, '-v --version')
+  .version(`${currentPackageJson.version}`, '-v --version')
   .usage('<command> [options]')
 
 program

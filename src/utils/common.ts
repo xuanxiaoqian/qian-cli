@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 
 // 将json数据的属性排一下序
 export default function sortDependencies(packageJson) {
@@ -148,4 +149,24 @@ export function JSONArrModule(arr: string) {
   })
 
   return obj
+}
+
+/**
+ * 获得脚手架的package.json
+ * @returns 返回脚手架的package.json
+ */
+export const currentPackageJson = require(path.join(
+  __dirname,
+  '../../package.json',
+))
+
+/**
+ * 返回用户项目的qian-cli.json
+ */
+export const qianCliJson = (): any => {
+  if (fs.existsSync(path.join(process.cwd(), 'qian-cli.json'))) {
+    return require(path.join(process.cwd(), 'qian-cli.json'))
+  } else {
+    return false
+  }
 }

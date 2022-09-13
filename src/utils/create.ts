@@ -7,9 +7,19 @@ import {
   exportDefaultName,
   firstToUpper,
   JSONArrModule,
-  readJsonFile,
+  currentPackageJson,
   stringObjectParse,
+  qianCliJson,
 } from './common'
+import { red,green } from 'kolorist'
+
+export const checkConfigJson = () => {
+  if (!(qianCliJson() ?? false)) {
+    console.log(red(`未找到 ${path.join(process.cwd(), 'qian-cli.json')}`));
+
+    process.exit(1)
+  }
+}
 
 export async function selectModule(): Promise<string> {
   const question = [
@@ -26,6 +36,12 @@ export async function selectModule(): Promise<string> {
 }
 
 export function createModule(moduleStr: string, moduleName: string) {
+  
+  if (moduleName.split('/').length > 1) {
+    createRouter(moduleName)
+    return
+  }
+
   if (moduleStr == 'router') {
     createRouter(moduleName)
   } else if (moduleStr == 'store') {
@@ -42,7 +58,7 @@ export function createRouter(moduleName: string) {
 }
 
 export function createRootRouter(moduleName: string) {
-  let _data: any = readJsonFile(path.join(process.cwd(), 'qian-cli.json'))
+  let _data: any = qianCliJson()
 
   // 模版文件目录
   let templateUrl = path.join(__dirname, '../', 'template', 'create')
@@ -73,15 +89,16 @@ export function createRootRouter(moduleName: string) {
       .join('/')}'),
   `
 
-  console.log();
+  let sass =
+    currentPackageJson['devDependencies']['sass'] ??
+    currentPackageJson['dependencies']['sass'] ??
+    false
 
-  let sass = require(path.join(process.cwd(),'package.json'))['devDependencies']['sass'] ?? require(path.join(process.cwd(),'package.json'))['dependencies']['sass'] ?? false
-  
   let isScss = sass ? `lang="scss" ` : ''
   ejs
     .renderFile(pageUrl, {
       pageName: moduleName,
-      isScss
+      isScss,
     })
     .then((data) => {
       if (_data.router.isPageDir) {
@@ -109,11 +126,14 @@ export function createRootRouter(moduleName: string) {
       ) {
         shell.echo('prettier格式化错误')
       }
+
+      console.log(green('创建成功！！！'));
+      
     })
 }
 
 export function createChildren(moduleName: string) {
-  let _data: any = readJsonFile(path.join(process.cwd(), 'qian-cli.json'))
+  let _data: any = qianCliJson()
   let templateUrl = path.join(__dirname, '../', 'template', 'create')
 
   let fatherName = moduleName.split('/')[0]
@@ -173,13 +193,16 @@ export function createChildren(moduleName: string) {
   // 如果渲染route再渲染page会报vite的[plugin:vite:import-analysis] Cannot read properties of undefined (reading 'url')错
   let renderPageUrl = path.join(process.cwd(), _data.router.pagePath)
 
-  let sass = require(path.join(process.cwd(),'package.json'))['devDependencies']['sass'] ?? require(path.join(process.cwd(),'package.json'))['dependencies']['sass'] ?? false
-  
+  let sass =
+    currentPackageJson['devDependencies']['sass'] ??
+    currentPackageJson['dependencies']['sass'] ??
+    false
+
   let isScss = sass ? `lang="scss" ` : ''
   ejs
     .renderFile(path.join(templateUrl, 'page.ejs'), {
       pageName: sonName,
-      isScss
+      isScss,
     })
     .then((data) => {
       if (_data.router.isPageDir) {
@@ -209,11 +232,13 @@ export function createChildren(moduleName: string) {
       ) {
         shell.echo('prettier格式化错误')
       }
+
+      console.log(green('创建成功！！！'));
     })
 }
 
 export function createStore(moduleName: string) {
-  let _data: any = readJsonFile(path.join(process.cwd(), 'qian-cli.json'))
+  let _data: any = qianCliJson()
 
   // 模版文件目录
   let templateUrl = path.join(__dirname, '../', 'template', 'create')
@@ -228,5 +253,7 @@ export function createStore(moduleName: string) {
     .then((data) => {
       // 生成 ejs 处理后的模版文件
       fs.writeFileSync(path.join(renderStorerl, moduleName + '.ts'), data)
+
+      console.log(green('创建成功！！！'));
     })
 }

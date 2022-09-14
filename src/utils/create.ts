@@ -74,6 +74,25 @@ export function createRootRouter(moduleName: string) {
   let vueSuffix = '.vue'
   let vueName = moduleName + vueSuffix
 
+  if (fs.existsSync(path.join(renderRouteUrl, routeName))) {
+    console.log(red(`${path.join(renderRouteUrl, routeName)} 存在！！！`))
+    process.exit(0)
+  }
+
+  if (_data.router.isPageDir) {
+    if (fs.existsSync(path.join(renderPageUrl, moduleName, vueName))) {
+      console.log(
+        red(`${path.join(renderPageUrl, moduleName, vueName)} 存在！！！`),
+      )
+      process.exit(0)
+    }
+  } else {
+    if (fs.existsSync(path.join(renderPageUrl, vueName))) {
+      console.log(red(`${path.join(renderPageUrl, vueName)} 存在！！！`))
+      process.exit(0)
+    }
+  }
+
   let routerMeta = `
     path: '/${moduleName}',
     name: '${moduleName}',
@@ -164,7 +183,46 @@ export function createChildren(moduleName: string) {
       )
       process.exit(0)
     }
+
+    if (
+      fs.existsSync(
+        path.join(
+          path.join(process.cwd(), _data.router.pagePath),
+          fatherName,
+          sonName,
+          sonName + '.vue',
+        ),
+      )
+    ) {
+      console.log(
+        red(
+          `${path.join(
+            path.join(process.cwd(), _data.router.pagePath),
+            fatherName,
+            sonName,
+            sonName + '.vue',
+          )}存在！`,
+        ),
+      )
+      process.exit(0)
+    }
   } else {
+    if (
+      fs.existsSync(
+        path.join(
+          path.join(process.cwd(), _data.router.pagePath, sonName + '.vue'),
+        ),
+      )
+    ) {
+      console.log(
+        red(
+          `${path.join(
+            path.join(process.cwd(), _data.router.pagePath, sonName + '.vue'),
+          )}存在！`,
+        ),
+      )
+      process.exit(0)
+    }
     if (
       !fs.existsSync(path.join(path.join(process.cwd(), _data.router.pagePath)))
     ) {
@@ -240,7 +298,10 @@ export function createChildren(moduleName: string) {
     })
     .then((data) => {
       if (_data.router.isPageDir) {
-        fs.mkdirSync(path.join(renderPageUrl, fatherName, sonName))
+        if (!fs.existsSync(path.join(renderPageUrl, fatherName, sonName))) {
+          fs.mkdirSync(path.join(renderPageUrl, fatherName, sonName))
+        }
+
         fs.writeFileSync(
           path.join(renderPageUrl, fatherName, sonName, sonName + '.vue'),
           data,

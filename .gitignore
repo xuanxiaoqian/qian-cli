@@ -2,6 +2,7 @@
 node_modules/
 package-lock.json
 package/document/dist/
+
 dist
 dist.*
 # Editor directories and files

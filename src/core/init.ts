@@ -1,3 +1,4 @@
+import { qianCliJson } from '../utils/common'
 import {
   checkName,
   checkTemplate,
@@ -9,14 +10,16 @@ import {
 export default async function init(name: string): Promise<void> {
   let { projectPath, isCwd } = checkName(name)
 
-  let isCustom = checkTemplate(projectPath, isCwd) ?? false
+  let qianJson = qianCliJson()?.template ?? false
 
   // 如果用户没有配置远程模板
-  if (isCustom ?? !isCustom) {
+  if (!qianJson) {
     const feature = await selectFeature()
 
     await render(projectPath, feature)
 
     Tips(name, isCwd)
+  } else {
+    checkTemplate(projectPath, isCwd)
   }
 }

@@ -10,7 +10,7 @@
     "lib"
   ],
   "scripts": {
-    "dev:init": "ts-node-dev --respawn --transpile-only src/index.ts init xuan",
+    "dev:init": "ts-node-dev --respawn --transpile-only src/index.ts init xuan https://gitee.com/lianxuan7/koa-zsq.git",
     "dev:create": "ts-node-dev --respawn --transpile-only src/index.ts create qwe",
     "dev:docs": "vitepress dev docs",
     "build:cli": "node ./scripts/build.js",

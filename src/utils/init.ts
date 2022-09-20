@@ -33,57 +33,51 @@ export function checkName(name: string) {
 /**
   用于下载用户自定义的模板
  */
-export function checkTemplate(projectPath: string, isCwd: boolean) {
+export function checkTemplate(
+  projectPath: string,
+  isCwd: boolean,
+  git: string[],
+) {
   if (isCwd) {
     console.log(red('下载远程模板 不支持操作符 . '))
     process.exit(1)
   }
-  let qianJson = qianCliJson()?.template ?? false
 
-  if (!qianJson) {
-    return false
-  }
+  console.log(green(`将使用远程模板下载 ${git[0]}`))
+  const spinner = ora('正在初始化项目...').start() //开启进度条
 
-  if (Object.keys(qianJson).length > 1) {
-    console.log(red(`出现多个地址 ${Object.keys(qianJson)},请只指定一个地址`))
-    process.exit(1)
-  } else if (Object.keys(qianJson)[0] === 'gitUrl') {
-    console.log(green(`将使用远程模板下载 ${qianJson['gitUrl']}`))
-    const spinner = ora('正在初始化项目...').start() //开启进度条
+  console.log(
+    `git clone -b ${git[1] ?? 'master'} ${git[0]} ${path.basename(
+      projectPath,
+    )}`,
+  )
 
-    exec(
-      `git clone ${qianJson['gitUrl']} ${path.basename(projectPath)}`,
-      (err, stdout, stderr) => {
-        if (err) {
-          console.log(red('本地好像没有git环境喔~ 请下载git后再使用'))
+  exec(
+    `git clone -b ${git[1] ?? 'master'} ${git[0]} ${path.basename(
+      projectPath,
+    )}`,
+    (err, stdout, stderr) => {
+      if (err) {
+        console.log(
+          red(`报错原因：${err}`),
+        )
 
-          process.exit(1)
-        }
+        process.exit(1)
+      }
 
-        removeDir(path.join(projectPath, '.git'))
-        let _data: any = readJsonFile(path.join(projectPath, 'package.json'))
-        _data.name = path.basename(projectPath)
-        _data.version = '0.0.0'
+      removeDir(path.join(projectPath, '.git'))
+      let _data: any = readJsonFile(path.join(projectPath, 'package.json'))
+      _data.name = path.basename(projectPath)
+      _data.version = '0.0.0'
 
-        let str = JSON.stringify(_data, null, 4)
-        fs.writeFileSync(`${path.join(projectPath, 'package.json')}`, str)
+      let str = JSON.stringify(_data, null, 4)
+      fs.writeFileSync(`${path.join(projectPath, 'package.json')}`, str)
 
-        spinner.succeed(green('初始化完成'))
+      spinner.succeed(green('初始化完成'))
 
-        return true
-      },
-    )
-  } else {
-    console.log(
-      red(
-        `出现未定义的配置项 ${Object.keys(
-          qianJson,
-        )},请选择正确的配置项: gitUrl`,
-      ),
-    )
-
-    process.exit(1)
-  }
+      return true
+    },
+  )
 }
 
 export async function selectFeature(): Promise<Array<string>> {

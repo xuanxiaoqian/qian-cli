@@ -3,9 +3,9 @@
 import { program } from 'commander'
 import create from './core/create'
 import init from './core/init'
-import { currentPackageJson } from './utils/common';
+import { currentPackageJson } from './utils/common'
 
-import notifier from "./utils/updateNotifier";
+import notifier from './utils/updateNotifier'
 notifier.notify({ isGlobal: true })
 
 program
@@ -13,10 +13,10 @@ program
   .usage('<command> [options]')
 
 program
-  .command('init <app-name>')
+  .command('init <app-name> [git...]')
   .description('创建一个新的项目 例如: qian-cli init v3-project')
-  .action(async (name: string) => {
-    await init(name)
+  .action(async (name: string, git: string[]) => {
+    await init(name, git)
   })
 
 program
@@ -25,5 +25,5 @@ program
   .action(async (name: string) => {
     await create(name)
   })
-  
+
 program.parse(process.argv)

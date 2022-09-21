@@ -1,6 +1,6 @@
 {
   "name": "qian-cli",
-  "version": "1.3.30",
+  "version": "1.3.31",
   "description": "快速搭建vue3开发环境的脚手架",
   "main": "index.js",
   "bin": {
@@ -23,7 +23,7 @@
     "url": "git+https://github.com/xuanxiaoqian/qian-cli"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": "^14.18.0 || >=16.0.0"
   },
   "keywords": [
     "qian-cli",

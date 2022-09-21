@@ -77,6 +77,14 @@ qian-cli init my-project
 ~~~
 <br />
 
+初始化远程git`模板`:
+
+~~~sh
+qian-cli init git-project <你的仓库地址> [指定分支]
+~~~
+
+<br />
+
 创建一个`模块`:
 
 ~~~sh

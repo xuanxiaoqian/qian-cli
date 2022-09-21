@@ -34,6 +34,7 @@ const build = async function () {
     outdir: path.join(process.cwd(), "lib"),
     format: "cjs",
     platform: "node",
+    target: 'node14',
   });
 
   // 因为忽略了template,所以需要复制一份

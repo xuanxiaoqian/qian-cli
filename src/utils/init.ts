@@ -46,12 +46,6 @@ export function checkTemplate(
   console.log(green(`将使用远程模板下载 ${git[0]}`))
   const spinner = ora('正在初始化项目...').start() //开启进度条
 
-  console.log(
-    `git clone -b ${git[1] ?? 'master'} ${git[0]} ${path.basename(
-      projectPath,
-    )}`,
-  )
-
   exec(
     `git clone -b ${git[1] ?? 'master'} ${git[0]} ${path.basename(
       projectPath,
@@ -75,7 +69,7 @@ export function checkTemplate(
 
       spinner.succeed(green('初始化完成'))
 
-      return true
+      process.exit(1)
     },
   )
 }

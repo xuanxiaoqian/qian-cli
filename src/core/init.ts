@@ -1,5 +1,5 @@
 import { red } from 'kolorist'
-import { qianCliJson } from '../utils/common'
+
 import {
   checkName,
   checkTemplate,
@@ -11,6 +11,7 @@ import {
 export default async function init(name: string, git: string[]): Promise<void> {
   let { projectPath, isCwd } = checkName(name)
 
+  // 用户使用远程git仓库
   if (git.length > 0) {
     var regex = new RegExp(/^http(s)?:\/\/.*\.git$/)
 
@@ -21,13 +22,12 @@ export default async function init(name: string, git: string[]): Promise<void> {
     } else {
       checkTemplate(projectPath, isCwd, git)
     }
-    return
+  } else {
+    // 用户使用本地qian-cli模板
+    const feature = await selectFeature()
+
+    await render(projectPath, feature)
+
+    Tips(name, isCwd)
   }
-
-  // 如果用户没有配置远程模板
-  const feature = await selectFeature()
-
-  await render(projectPath, feature)
-
-  Tips(name, isCwd)
 }

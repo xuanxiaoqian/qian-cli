@@ -108,9 +108,10 @@ export function createRootRouter(moduleName: string) {
   `
 
   let sass =
-    userPackageJson['devDependencies']['sass'] ??
-    userPackageJson['dependencies']['sass'] ??
+    userPackageJson()['devDependencies']?.['sass'] ??
+    userPackageJson()['dependencies']?.['sass'] ??
     false
+    
 
   let isScss = sass ? `lang="scss" ` : ''
 
@@ -287,8 +288,8 @@ export function createChildren(moduleName: string) {
   let renderPageUrl = path.join(process.cwd(), _data.router.pagePath)
 
   let sass =
-    userPackageJson['devDependencies']['sass'] ??
-    userPackageJson['dependencies']['sass'] ??
+    userPackageJson()['devDependencies']?.['sass'] ??
+    userPackageJson()['dependencies']?.['sass'] ??
     false
 
   let isScss = sass ? `lang="scss" ` : ''

@@ -7,9 +7,9 @@ import {
   exportDefaultName,
   firstToUpper,
   JSONArrModule,
-  currentPackageJson,
   stringObjectParse,
   qianCliJson,
+  userPackageJson,
 } from './common'
 import { red, green } from 'kolorist'
 
@@ -108,11 +108,12 @@ export function createRootRouter(moduleName: string) {
   `
 
   let sass =
-    currentPackageJson['devDependencies']['sass'] ??
-    currentPackageJson['dependencies']['sass'] ??
+    userPackageJson['devDependencies']['sass'] ??
+    userPackageJson['dependencies']['sass'] ??
     false
 
   let isScss = sass ? `lang="scss" ` : ''
+
   ejs
     .renderFile(pageUrl, {
       pageName: moduleName,
@@ -286,8 +287,8 @@ export function createChildren(moduleName: string) {
   let renderPageUrl = path.join(process.cwd(), _data.router.pagePath)
 
   let sass =
-    currentPackageJson['devDependencies']['sass'] ??
-    currentPackageJson['dependencies']['sass'] ??
+    userPackageJson['devDependencies']['sass'] ??
+    userPackageJson['dependencies']['sass'] ??
     false
 
   let isScss = sass ? `lang="scss" ` : ''

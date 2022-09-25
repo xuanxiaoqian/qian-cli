@@ -161,6 +161,17 @@ export const currentPackageJson = require(path.join(
 ))
 
 /**
+ * 获得用户的package.json
+ */
+export const userPackageJson = (): any => {
+  if (fs.existsSync(path.join(process.cwd(), 'package.json'))) {
+    return require(path.join(process.cwd(), 'package.json'))
+  } else {
+    return false
+  }
+}
+
+/**
  * 返回用户项目的qian-cli.json
  */
 export const qianCliJson = (): any => {
@@ -171,24 +182,23 @@ export const qianCliJson = (): any => {
   }
 }
 
-
 /**
  * 删除目录及目录下所有的文件
  * @param {string} filePath (需要删除文件夹的地址)
  */
 
- export function removeDir(filePath: string) {
-  let statObj = fs.statSync(filePath); // fs.statSync同步读取文件状态，判断是文件目录还是文件。
+export function removeDir(filePath: string) {
+  let statObj = fs.statSync(filePath) // fs.statSync同步读取文件状态，判断是文件目录还是文件。
   if (statObj.isDirectory()) {
     //如果是目录
-    let dirs = fs.readdirSync(filePath); //fs.readdirSync()同步的读取目标下的文件 返回一个不包括 '.' 和 '..' 的文件名的数组['b','a']
-    dirs = dirs.map((dir) => path.join(filePath, dir)); //拼上完整的路径
+    let dirs = fs.readdirSync(filePath) //fs.readdirSync()同步的读取目标下的文件 返回一个不包括 '.' 和 '..' 的文件名的数组['b','a']
+    dirs = dirs.map((dir) => path.join(filePath, dir)) //拼上完整的路径
     for (let i = 0; i < dirs.length; i++) {
       // 深度 先将儿子移除掉 再删除掉自己
-      removeDir(dirs[i]);
+      removeDir(dirs[i])
     }
-    fs.rmdirSync(filePath); //删除目录
+    fs.rmdirSync(filePath) //删除目录
   } else {
-    fs.unlinkSync(filePath); //删除文件
+    fs.unlinkSync(filePath) //删除文件
   }
 }

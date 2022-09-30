@@ -52,22 +52,28 @@ export function checkTemplate(
     )}`,
     (err, stdout, stderr) => {
       if (err) {
-        console.log(
-          red(`报错原因：${err}`),
-        )
+        console.log(red(`报错原因：${err}`))
 
         process.exit(1)
       }
 
       removeDir(path.join(projectPath, '.git'))
-      let _data: any = readJsonFile(path.join(projectPath, 'package.json'))
-      _data.name = path.basename(projectPath)
-      _data.version = '0.0.0'
 
-      let str = JSON.stringify(_data, null, 4)
-      fs.writeFileSync(`${path.join(projectPath, 'package.json')}`, str)
+      if (fs.existsSync(path.join(projectPath, 'package.json'))) {
+        let _data: any = readJsonFile(path.join(projectPath, 'package.json'))
+        _data.name = path.basename(projectPath)
+        _data.version = '0.0.0'
+
+        let str = JSON.stringify(_data, null, 4)
+        fs.writeFileSync(`${path.join(projectPath, 'package.json')}`, str)
+      }
 
       spinner.succeed(green('初始化完成'))
+
+      console.log()
+      console.log(green('现在运行:'))
+      console.log()
+      console.log(green('  cd ' + path.basename(projectPath)))
 
       process.exit(1)
     },

@@ -3,7 +3,7 @@
 初始化项目
 
 ~~~sh
-npm init -y && npm i typescript && npx tsc --init
+npm init -y && npm i typescript --save-dev && npx tsc --init
 ~~~
 
 

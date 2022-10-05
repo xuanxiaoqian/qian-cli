@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "gitee"]
+	url = https://gitee.com/xuanxiaoqian/qian-cli.git
+	fetch = +refs/heads/*:refs/remotes/gitee/*
+[remote "github"]
+	url = https://github.com/xuanxiaoqian/qian-cli.git
+	fetch = +refs/heads/*:refs/remotes/github/*
+[branch "master"]
+	remote = gitee
+	merge = refs/heads/master

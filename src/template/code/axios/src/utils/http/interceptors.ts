@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance } from 'axios'
+import Axios, { AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios'
 
 import defaultConfig from './defaultConfig'
 
@@ -13,23 +13,23 @@ export class Interceptors {
 
   init() {
     this.instance.interceptors.request.use(
-      (config: any) => {
+      (config: AxiosRequestConfig) => {
         return config
       },
-      (err) => {
+      (err: AxiosError) => {
         console.log(err)
         return Promise.reject(err)
-      }
+      },
     )
 
     this.instance.interceptors.response.use(
-      (response) => {
+      (response: AxiosResponse) => {
         return Promise.resolve(response)
       },
-      (err) => {
+      (err: AxiosError) => {
         console.log(err)
         return Promise.reject(err)
-      }
+      },
     )
   }
 

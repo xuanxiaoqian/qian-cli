@@ -65,39 +65,51 @@ qian-cli还提供了快捷生成文件，无需手动创建文件、文件夹。
 
 > node版本需要  "node": "^14.18.0 || >=16.0.0" 
 
+1. 安装到本地
+
+   使用npm全局安装:
+
+   ~~~sh
+   npm i qian-cli -g
+   ~~~
+
+   <br />
+
+   初始化一个`项目`:
+
+   ~~~sh
+   qian-cli init my-project
+   ~~~
+
+   <br />
+
+   初始化远程git`模板`:
+
+   ~~~sh
+   qian-cli init git-project <你的仓库地址> [指定分支]
+   ~~~
+
+   <br />
+
+   创建一个`模块`:
+
+   ~~~sh
+   qian-cli create moduleName
+   ~~~
 
 
-使用npm全局安装:
 
-~~~sh
-npm i qian-cli -g
-~~~
-<br />
+2. 无需安装到本地
 
-初始化一个`项目`:
+   使用npx即用即走
 
-~~~sh
-qian-cli init my-project
-~~~
-<br />
+   ~~~sh
+   npx qian-cli init my-project.
+   
+   ...其他功能适用
+   ~~~
 
-初始化远程git`模板`:
-
-~~~sh
-qian-cli init git-project <你的仓库地址> [指定分支]
-~~~
-
-<br />
-
-创建一个`模块`:
-
-~~~sh
-qian-cli create moduleName
-~~~
-
-
-
-
+   
 
 ## 疑问交流
 

@@ -17,16 +17,15 @@ export default defineConfig({
   ],
 
   server: {
-    host: "0.0.0.0",
+    host: '0.0.0.0',
     port: 3000,
     open: false,
-    https: false,
-    base: "./",
+    base: config.VITE_APP_BASE_PATH,
     proxy: {
-      "^/api": {
-        target: config.VITE_APP_BASE_API,
+      '^/api': {
+        target: 'http://localhost:1234',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },

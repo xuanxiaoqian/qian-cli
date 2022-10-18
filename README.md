@@ -58,6 +58,7 @@ qian-cli还提供了快捷生成文件，无需手动创建文件、文件夹。
    - Pinia
    - Prettier
    - Scss
+   - Tailwind
    - Tsx
    - `敬请期待...`
 

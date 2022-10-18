@@ -116,6 +116,11 @@ export async function selectFeature(): Promise<Array<string>> {
           checked: true,
         },
         {
+          value: 'tailwind',
+          name: 'tailwind',
+          checked: false,
+        },
+        {
           value: 'TSX',
           name: 'TSX',
           checked: false,

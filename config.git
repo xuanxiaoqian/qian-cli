@@ -22,3 +22,6 @@
 # 取消上述配置
 # git config --global --unset http.proxy
 # git config --global --unset https.proxy
+
+# 因为我们模板有时候需要修改大小写
+# git config core.ignorecase false

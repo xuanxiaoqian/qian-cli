@@ -1,11 +1,11 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
-const routes: RouteRecordRaw[] = [];
+const routes: RouteRecordRaw[] = []
 
-const modules: any = import.meta.glob("./modules/*.ts", { eager: true });
+const modules: any = import.meta.glob('./modules/*.ts', { eager: true })
 for (const path in modules) {
-  if (Array.isArray(modules[path])) {
-    modules[path].map((v: any) => routes.push(v[path].default))
+  if (Array.isArray(modules[path].default)) {
+    modules[path].default.map((v: any) => routes.push(v))
   } else {
     routes.push(modules[path].default)
   }
@@ -15,12 +15,12 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: routes,
   strict: false,
-});
+})
 
 router.beforeEach((to, from, next) => {
-  next();
-});
+  next()
+})
 
-router.afterEach(() => {});
+router.afterEach(() => {})
 
-export default router;
+export default router

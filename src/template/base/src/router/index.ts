@@ -4,7 +4,11 @@ const routes: RouteRecordRaw[] = [];
 
 const modules: any = import.meta.glob("./modules/*.ts", { eager: true });
 for (const path in modules) {
-  routes.push(modules[path].default);
+  if (Array.isArray(modules[path])) {
+    modules[path].map((v: any) => routes.push(v[path].default))
+  } else {
+    routes.push(modules[path].default)
+  }
 }
 
 const router = createRouter({

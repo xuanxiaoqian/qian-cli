@@ -6,7 +6,7 @@ export default async function create(moduleName: string): Promise<void> {
    * 用户的数据放在第一位，后续需要加入异常数据回滚事件
    */
   checkConfigJson()
- 
+  
   let moduleStr
 
   // 当用户初始化子路由的时候不需要用户选择创建什么模块

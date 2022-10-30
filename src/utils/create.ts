@@ -3,14 +3,7 @@ import ejs from 'ejs'
 import fs from 'fs'
 import inquirer from 'inquirer'
 import shell from 'shelljs'
-import {
-  exportDefaultName,
-  firstToUpper,
-  JSONArrModule,
-  stringObjectParse,
-  qianCliJson,
-  userPackageJson,
-} from './common'
+import { exportDefaultName, firstToUpper, JSONArrModule, stringObjectParse, qianCliJson, userPackageJson } from './common'
 import { red, green } from 'kolorist'
 
 export const checkConfigJson = () => {
@@ -49,10 +42,12 @@ export function createModule(moduleStr: string, moduleName: string) {
 }
 
 export function createRouter(moduleName: string) {
-  if (moduleName.split('/').length == 1) {
-    createRootRouter(moduleName)
-  } else if (moduleName.split('/').length == 2) {
-    createChildren(moduleName)
+  let mdName = moduleName.split('/').filter((str) => !!str)
+
+  if (mdName.length == 1) {
+    createRootRouter(mdName[0])
+  } else {
+    createChildren(mdName.join('/'))
   }
 }
 
@@ -81,9 +76,7 @@ export function createRootRouter(moduleName: string) {
 
   if (_data.router.isPageDir) {
     if (fs.existsSync(path.join(renderPageUrl, moduleName, vueName))) {
-      console.log(
-        red(`${path.join(renderPageUrl, moduleName, vueName)} 存在！！！`),
-      )
+      console.log(red(`${path.join(renderPageUrl, moduleName, vueName)} 存在！！！`))
       process.exit(0)
     }
   } else {
@@ -97,21 +90,12 @@ export function createRootRouter(moduleName: string) {
     path: '/${moduleName}',
     name: '${moduleName}',
     component: () => import('${path
-      .join(
-        _data.router.alias,
-        _data.router.pagePath.split('src')[1],
-        _data.router.isPageDir ? moduleName : '',
-        moduleName + '.vue',
-      )
+      .join(_data.router.alias, _data.router.pagePath.split('src')[1], _data.router.isPageDir ? moduleName : '', moduleName + '.vue')
       .split('\\')
       .join('/')}'),
   `
 
-  let sass =
-    userPackageJson()['devDependencies']?.['sass'] ??
-    userPackageJson()['dependencies']?.['sass'] ??
-    false
-    
+  let sass = userPackageJson()['devDependencies']?.['sass'] ?? userPackageJson()['dependencies']?.['sass'] ?? false
 
   let isScss = sass ? `lang="scss" ` : ''
 
@@ -139,11 +123,7 @@ export function createRootRouter(moduleName: string) {
       // 生成 ejs 处理后的模版文件
       fs.writeFileSync(path.join(renderRouteUrl, routeName), data)
 
-      if (
-        shell.exec(
-          `npx prettier --write  \"src/router/modules/${moduleName}.ts\"`,
-        ).code !== 0
-      ) {
+      if (shell.exec(`npx prettier --write  \"src/router/modules/${moduleName}.ts\"`).code !== 0) {
         shell.echo('prettier格式化错误')
       }
 
@@ -158,11 +138,7 @@ export function createChildren(moduleName: string) {
   let fatherName = moduleName.split('/')[0]
   let sonName = moduleName.split('/')[1]
 
-  let fatherUrl = path.join(
-    process.cwd(),
-    _data.router.routePath,
-    fatherName + '.ts',
-  )
+  let fatherUrl = path.join(process.cwd(), _data.router.routePath, fatherName + '.ts')
 
   if (!fs.existsSync(fatherUrl)) {
     console.log(red(`找不到 ${fatherUrl}`))
@@ -170,71 +146,22 @@ export function createChildren(moduleName: string) {
   }
 
   if (_data.router.isPageDir) {
-    if (
-      !fs.existsSync(
-        path.join(path.join(process.cwd(), _data.router.pagePath), fatherName),
-      )
-    ) {
-      console.log(
-        red(
-          `找不到 ${path.join(
-            path.join(process.cwd(), _data.router.pagePath),
-            fatherName,
-          )}`,
-        ),
-      )
+    if (!fs.existsSync(path.join(path.join(process.cwd(), _data.router.pagePath), fatherName))) {
+      console.log(red(`找不到 ${path.join(path.join(process.cwd(), _data.router.pagePath), fatherName)}`))
       process.exit(0)
     }
 
-    if (
-      fs.existsSync(
-        path.join(
-          path.join(process.cwd(), _data.router.pagePath),
-          fatherName,
-          sonName,
-          sonName + '.vue',
-        ),
-      )
-    ) {
-      console.log(
-        red(
-          `${path.join(
-            path.join(process.cwd(), _data.router.pagePath),
-            fatherName,
-            sonName,
-            sonName + '.vue',
-          )}存在！`,
-        ),
-      )
+    if (fs.existsSync(path.join(path.join(process.cwd(), _data.router.pagePath), fatherName, sonName, sonName + '.vue'))) {
+      console.log(red(`${path.join(path.join(process.cwd(), _data.router.pagePath), fatherName, sonName, sonName + '.vue')}存在！`))
       process.exit(0)
     }
   } else {
-    if (
-      fs.existsSync(
-        path.join(
-          path.join(process.cwd(), _data.router.pagePath, sonName + '.vue'),
-        ),
-      )
-    ) {
-      console.log(
-        red(
-          `${path.join(
-            path.join(process.cwd(), _data.router.pagePath, sonName + '.vue'),
-          )}存在！`,
-        ),
-      )
+    if (fs.existsSync(path.join(path.join(process.cwd(), _data.router.pagePath, sonName + '.vue')))) {
+      console.log(red(`${path.join(path.join(process.cwd(), _data.router.pagePath, sonName + '.vue'))}存在！`))
       process.exit(0)
     }
-    if (
-      !fs.existsSync(path.join(path.join(process.cwd(), _data.router.pagePath)))
-    ) {
-      console.log(
-        red(
-          `找不到 ${path.join(
-            path.join(process.cwd(), _data.router.pagePath),
-          )}`,
-        ),
-      )
+    if (!fs.existsSync(path.join(path.join(process.cwd(), _data.router.pagePath)))) {
+      console.log(red(`找不到 ${path.join(path.join(process.cwd(), _data.router.pagePath))}`))
       process.exit(0)
     }
   }
@@ -243,9 +170,7 @@ export function createChildren(moduleName: string) {
   let children = {
     path: `${sonName}`,
     name: `${sonName}`,
-    component: _data.router.isPageDir
-      ? `() => import("@/views/${fatherName}/${sonName}/${sonName}.vue")`
-      : `() => import("@/views/${sonName}.vue")`,
+    component: _data.router.isPageDir ? `() => import("@/views/${fatherName}/${sonName}/${sonName}.vue")` : `() => import("@/views/${sonName}.vue")`,
   }
 
   let defaultName = exportDefaultName(route) as string
@@ -287,10 +212,7 @@ export function createChildren(moduleName: string) {
   // 如果渲染route再渲染page会报vite的[plugin:vite:import-analysis] Cannot read properties of undefined (reading 'url')错
   let renderPageUrl = path.join(process.cwd(), _data.router.pagePath)
 
-  let sass =
-    userPackageJson()['devDependencies']?.['sass'] ??
-    userPackageJson()['dependencies']?.['sass'] ??
-    false
+  let sass = userPackageJson()['devDependencies']?.['sass'] ?? userPackageJson()['dependencies']?.['sass'] ?? false
 
   let isScss = sass ? `lang="scss" ` : ''
   ejs
@@ -304,10 +226,7 @@ export function createChildren(moduleName: string) {
           fs.mkdirSync(path.join(renderPageUrl, fatherName, sonName))
         }
 
-        fs.writeFileSync(
-          path.join(renderPageUrl, fatherName, sonName, sonName + '.vue'),
-          data,
-        )
+        fs.writeFileSync(path.join(renderPageUrl, fatherName, sonName, sonName + '.vue'), data)
       } else {
         fs.writeFileSync(path.join(renderPageUrl, sonName + '.vue'), data)
       }
@@ -322,11 +241,7 @@ export function createChildren(moduleName: string) {
     .then((data) => {
       fs.writeFileSync(fatherUrl, data)
 
-      if (
-        shell.exec(
-          `npx prettier --write  \"src/router/modules/${fatherName}.ts\"`,
-        ).code !== 0
-      ) {
+      if (shell.exec(`npx prettier --write  \"src/router/modules/${fatherName}.ts\"`).code !== 0) {
         shell.echo('prettier格式化错误')
       }
 

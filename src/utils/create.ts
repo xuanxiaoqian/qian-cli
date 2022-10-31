@@ -44,6 +44,11 @@ export function createModule(moduleStr: string, moduleName: string) {
 export function createRouter(moduleName: string) {
   let mdName = moduleName.split('/').filter((str) => !!str)
 
+  if (mdName.length > 2) {
+    console.log(red('当前最多只能支持二级路由,抱歉~'))
+    process.exit(0)
+  }
+
   if (mdName.length == 1) {
     createRootRouter(mdName[0])
   } else {

@@ -3,30 +3,46 @@ import 'zx/globals'
 
 await $`npm run build:cli`
 
-let { version } = JSON.parse(fs.readFileSync('./package.json'))
-let _data = JSON.parse(fs.readFileSync('./package.json'))
+try {
+  let { version } = JSON.parse(fs.readFileSync('./package.json'))
+  let _data = JSON.parse(fs.readFileSync('./package.json'))
 
-let v = _data.version.split('.').map(Number)
+  let v = _data.version.split('.').map(Number)
 
-v[v.length - 1] += 1
+  v[v.length - 1] += 1
 
-_data.version = v.join('.')
+  _data.version = v.join('.')
 
-fs.writeFileSync('./package.json', JSON.stringify(_data, null, 2))
+  fs.writeFileSync('./package.json', JSON.stringify(_data, null, 2))
 
-console.log(`版本号： ${version} -> ${_data.version}`)
+  console.log(`版本号： ${version} -> ${_data.version}`)
 
-await $`prettier --write  \"./package.json\"`
+  await $`git add .`
 
-// await $`git add -A`;
+  await $`git commit -m "版本号: ${_data.version}"`
 
-// await $`git tag -m "v${_data.version}" v${_data.version}`
-// await $`git push --follow-tags`
+  await $`git push gitee dev`
 
-await $`git commit -am "版本号: ${_data.version}"`
+  try {
+    await $`git push github dev`
+  } catch (error) {}
 
-await $`git push gitee dev`
+  console.log(`版本号： ${version} -> ${_data.version}`)
+} catch (err) {
+  console.log('报错了,数据回滚')
 
-// await $`git push github`;
+  let { version } = JSON.parse(fs.readFileSync('./package.json'))
+  let _data = JSON.parse(fs.readFileSync('./package.json'))
 
-console.log(`版本号： ${version} -> ${_data.version}`)
+  let v = _data.version.split('.').map(Number)
+
+  v[v.length - 1] -= 1
+
+  _data.version = v.join('.')
+
+  fs.writeFileSync('./package.json', JSON.stringify(_data, null, 2))
+
+  console.log(`版本号： ${version} -> ${_data.version}`)
+
+  precess.exits(0)
+}

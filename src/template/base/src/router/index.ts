@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = []
 
-const modules: any = import.meta.glob('./modules/*.ts', { eager: true })
+const modules = import.meta.glob<any>('./modules/*.ts', { eager: true })
 for (const path in modules) {
   if (Array.isArray(modules[path].default)) {
     modules[path].default.map((v: any) => routes.push(v))

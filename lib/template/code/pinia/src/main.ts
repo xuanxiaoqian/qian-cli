@@ -1,9 +1,9 @@
+import router from '@/router/index'
+import pinia from '@/store/index'
 import { createApp } from 'vue'
-import pinia from './store/index'
 import App from './App.vue'
-import router from './router/index'
 
-import './style/reset.css'
+import '@/style/reset.css'
 
 const app = createApp(App)
 

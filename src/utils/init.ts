@@ -157,9 +157,9 @@ export async function render(projectPath: string, feature: string[]) {
 
   let succendMsg =
     green('初始化完成') +
-    '  如需使用create命令请务必查看官方文档  ' +
+    '  该脚手架由于当初设计的缺陷导致后续新增功能困难,后期考虑基于该仓库重新开发  ' +
     lightRed(
-      'https://qian-cli.xuanxiaoqian.com/configDoc/createConfig/guide.html',
+      'https://gitee.com/xuanxiaoqian/create-quick',
     )
   spinner.succeed(succendMsg)
 }

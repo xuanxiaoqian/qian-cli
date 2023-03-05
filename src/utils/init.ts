@@ -1,17 +1,16 @@
-import path from 'path'
-import fs from 'fs'
-import clear from 'clear-console'
 import { exec } from 'child_process'
+import clear from 'clear-console'
+import fs from 'fs'
+import path from 'path'
 
-import { blue, red, green, lightRed } from 'kolorist'
 import inquirer from 'inquirer'
+import { blue, green, lightRed, red } from 'kolorist'
 import ora from 'ora'
 import sortDependencies, {
   currentPackageJson,
   deepMerge,
-  qianCliJson,
   readJsonFile,
-  removeDir,
+  removeDir
 } from './common'
 
 export function checkName(name: string) {
@@ -97,22 +96,27 @@ export async function selectFeature(): Promise<Array<string>> {
       choices: [
         {
           value: 'axios',
-          name: 'axios',
+          name: 'Axios',
           checked: true,
         },
         {
           value: 'pinia',
-          name: 'pinia',
+          name: 'Pinia',
           checked: true,
         },
         {
           value: 'scss',
-          name: 'scss',
+          name: 'Scss',
+          checked: true,
+        },
+        {
+          value: 'prettier',
+          name: 'Prettier',
           checked: true,
         },
         {
           value: 'tailwind',
-          name: 'tailwind',
+          name: 'Tailwind',
           checked: false,
         },
         {
@@ -121,8 +125,8 @@ export async function selectFeature(): Promise<Array<string>> {
           checked: false,
         },
         {
-          value: 'prettier',
-          name: 'prettier',
+          value: 'vueUse',
+          name: 'VueUse',
           checked: false,
         },
       ],

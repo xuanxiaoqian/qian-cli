@@ -157,9 +157,9 @@ export async function render(projectPath: string, feature: string[]) {
 
   let succendMsg =
     green('初始化完成') +
-    '  该脚手架由于当初设计的缺陷导致后续新增功能困难,后期考虑基于该仓库重新开发  ' +
+    '  该脚手架正式废弃,请使用create-xuanxiaoqian代替  ' +
     lightRed(
-      'https://gitee.com/xuanxiaoqian/create-quick',
+      'npm create xuanxiaoqian | npm init xuanxiaoqian',
     )
   spinner.succeed(succendMsg)
 }

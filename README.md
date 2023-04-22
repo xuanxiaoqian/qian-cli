@@ -21,6 +21,8 @@
 
 ---
 
+<span style="color:red">已废弃</span>：请使用 [create-xuanxiaoqian](https://gitee.com/xuanxiaoqian/create-xuanxiaoqian) 代替，另外可以看一下 [create-quick](https://gitee.com/xuanxiaoqian/create-quick) 仓库，帮助你快速创建自己的脚手架
+
 
 
 
